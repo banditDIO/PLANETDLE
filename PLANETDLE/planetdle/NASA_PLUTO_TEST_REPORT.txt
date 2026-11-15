@@ -1,0 +1,5 @@
+PASS NASA Pluto texture and credit
+PASS Imported mesh rotates
+PASS NASA mesh draw calls in map and profile
+PASS Guess preview draws NASA mesh
+PASS No uncaught Chrome errors []

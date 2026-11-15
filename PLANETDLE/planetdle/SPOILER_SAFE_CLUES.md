@@ -1,0 +1,1 @@
+Incorrect guesses show only broad, spoiler-safe category clues. The name and unique educational fact are shown after the round ends. Confetti is attached to the document body with an overlay above all panels; reduced-motion settings shorten the effect.

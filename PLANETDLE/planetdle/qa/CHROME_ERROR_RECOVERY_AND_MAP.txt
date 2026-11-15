@@ -1,0 +1,8 @@
+PASS Wheel zoom enlarges map objects
+PASS Real pointer drag moves map
+PASS Moons clear Jupiter on reset 32.12000000000002
+PASS Gallery failure leaves profile usable
+PASS Failed guess request leaves the board and input usable
+PASS Reduced motion skips tile reveal delay
+PASS No uncaught exception during interaction/error recovery
+EDGE/Firefox scope documented separately

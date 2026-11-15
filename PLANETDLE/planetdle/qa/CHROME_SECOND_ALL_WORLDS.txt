@@ -1,0 +1,94 @@
+PASS Fresh uncached page has empty board and 21 search options
+PASS Software WebGL initializes
+PASS Production health endpoint
+PASS First visit explains six traits
+PASS Invalid input leaves six tries
+PASS Tiles reveal sequentially at normal motion
+PASS Rapid submission sends one request
+PASS Wrong guess displays general note and rotating preview
+PASS Reload restores board and does not expose the answer
+PASS Duplicate rejected after reload
+PASS Daily win displays victory
+PASS Victory starts confetti
+PASS Practice starts clean
+PASS Daily round API creates round
+PASS Six wrong guesses reveal defeat and answer {"rows":6,"result":"The answer was Callisto.","message":"All six attempts used."}
+PASS Completed board blocks extra guesses
+PASS Restart after defeat
+PASS Partial case-insensitive Locate and scroll
+PASS Invalid Locate feedback
+PASS Hover pauses map animation
+PASS Leaving resumes map animation
+CLICK Bennu {"x":1053.8659432898075,"y":497.6779001320782} solar-map
+PASS Actual canvas click and profile scroll for Bennu
+CLICK Callisto {"x":1060.287372363644,"y":500.01603224737727} solar-map
+PASS Actual canvas click and profile scroll for Callisto
+CLICK Ceres {"x":1056.335587902396,"y":500.15508821392166} solar-map
+PASS Actual canvas click and profile scroll for Ceres
+CLICK Earth {"x":1059.7891223323265,"y":504.003147797177} solar-map
+PASS Actual canvas click and profile scroll for Earth
+CLICK Earth's Moon {"x":1057.0077993827358,"y":501.2723268157496} solar-map
+PASS Actual canvas click and profile scroll for Earth's Moon
+CLICK Enceladus {"x":1056.4207511720208,"y":501.374236268221} solar-map
+PASS Actual canvas click and profile scroll for Enceladus
+CLICK Europa {"x":1055.773142539053,"y":501.07198579445924} solar-map
+PASS Actual canvas click and profile scroll for Europa
+CLICK Ganymede {"x":1052.8588525568728,"y":498.40677452256637} solar-map
+PASS Actual canvas click and profile scroll for Ganymede
+CLICK Halley's Comet {"x":1062.7158552457586,"y":498.40124675841616} solar-map
+PASS Actual canvas click and profile scroll for Halley's Comet
+CLICK Io {"x":1056.4335177180767,"y":501.25760528026166} solar-map
+PASS Actual canvas click and profile scroll for Io
+CLICK Jupiter {"x":1054.6281178402342,"y":503.81239801513243} solar-map
+PASS Actual canvas click and profile scroll for Jupiter
+CLICK Mars {"x":1056.2505450219642,"y":504.9598213567787} solar-map
+PASS Actual canvas click and profile scroll for Mars
+CLICK Mercury {"x":1060.0467406223563,"y":500.98885146834} solar-map
+PASS Actual canvas click and profile scroll for Mercury
+CLICK Neptune {"x":1056.111077485332,"y":500.32069232331884} solar-map
+PASS Actual canvas click and profile scroll for Neptune
+CLICK Phobos {"x":1056.492709801419,"y":501.4014172527347} solar-map
+PASS Actual canvas click and profile scroll for Phobos
+CLICK Pluto {"x":1056.6500773016116,"y":500.5478414878873} solar-map
+PASS Actual canvas click and profile scroll for Pluto
+CLICK Saturn {"x":1056.0649845993,"y":500.6832563690424} solar-map
+PASS Actual canvas click and profile scroll for Saturn
+CLICK Titan {"x":1055.9039246986615,"y":499.8442272295056} solar-map
+PASS Actual canvas click and profile scroll for Titan
+CLICK Uranus {"x":1056.0204394077164,"y":500.50320851174234} solar-map
+PASS Actual canvas click and profile scroll for Uranus
+CLICK Venus {"x":1058.322357605533,"y":501.3707612107135} solar-map
+PASS Actual canvas click and profile scroll for Venus
+CLICK Vesta {"x":1056.905942050299,"y":500.2450735168701} solar-map
+PASS Actual canvas click and profile scroll for Vesta
+PASS Scientific field note opens
+PASS Rapid Locate preserves last selection
+PASS All 20 atlas textures decoded
+TEXTURE ["Bennu",1024,1024,true]
+TEXTURE ["Callisto",1024,512,true]
+TEXTURE ["Ceres",4096,2048,true]
+TEXTURE ["Earth",2048,1024,true]
+TEXTURE ["Earth's Moon",2048,1024,true]
+TEXTURE ["Enceladus",1024,512,true]
+TEXTURE ["Europa",1440,720,true]
+TEXTURE ["Ganymede",1440,720,true]
+TEXTURE ["Halley's Comet",0,0,false]
+TEXTURE ["Io",1440,720,true]
+TEXTURE ["Jupiter",2048,1024,true]
+TEXTURE ["Mars",2048,1024,true]
+TEXTURE ["Mercury",2048,1024,true]
+TEXTURE ["Neptune",2048,1024,true]
+TEXTURE ["Phobos",2048,2048,true]
+TEXTURE ["Pluto",4096,2048,true]
+TEXTURE ["Saturn",2048,1024,true]
+TEXTURE ["Titan",2048,1024,true]
+TEXTURE ["Uranus",2048,1024,true]
+TEXTURE ["Venus",2048,1024,true]
+TEXTURE ["Vesta",2048,1024,true]
+PASS All six imported meshes issued indexed WebGL draws
+PASS 390px layout stays within viewport and profile stacks
+PASS Reduced motion stops automatic orbit
+PASS No uncaught JS exceptions []
+HTTP [[404,"http://127.0.0.1:5097/api/texture/Halley's%20Comet"]]
+NETWORK []
+ENGINE Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36

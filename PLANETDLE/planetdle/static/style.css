@@ -1,0 +1,544 @@
+:root {
+  --bg: #090d18; --panel: #101827; --line: #253149; --muted: #8792a8;
+  --text: #f4f6fb; --accent: #a8f0d0; --green: #2f9b79; --yellow: #b18a36;
+  --grey: #344056;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; color: var(--text); background:
+  radial-gradient(ellipse at 50% -20%, #1c3151 0%, transparent 52%), var(--bg);
+  font-family: "Inter", sans-serif;
+}
+.shell { width: min(760px, calc(100% - 36px)); margin: 0 auto; }
+.topbar { height: 76px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #202b40; }
+.brand { font-weight:800; letter-spacing:.16em; font-size:14px; }
+.brand-mark { color:var(--accent); font-size:20px; margin-right:8px; }
+.top-note, .eyebrow, .column-headings, .text-button, .result-kicker, footer, .guess-button {
+  font-family:"IBM Plex Mono", monospace; letter-spacing:.11em;
+}
+.top-note { color:#73819a; font-size:9px; }
+.intro { text-align:center; padding:54px 0 32px; }
+.eyebrow { color:var(--accent); font-size:10px; display:flex; align-items:center; justify-content:center; gap:9px; }
+.eyebrow span { width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent); }
+h1 { font-size:clamp(38px, 7vw, 58px); line-height:1.05; letter-spacing:-.055em; margin:17px 0 12px; font-weight:800; }
+h1 em { color:var(--accent); font-style:normal; }
+.subhead { color:var(--muted); font-size:13px; margin:0; }
+.game { width:min(100%, 650px); margin:0 auto; }
+.column-headings { display:grid; grid-template-columns:minmax(130px, 1.35fr) 3fr; gap:10px; color:#7f8ca4; font-size:9px; padding:0 0 10px; }
+.property-heads { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; text-align:center; }
+.object-heading { align-self:center; }
+.grid { display:flex; flex-direction:column; gap:7px; }
+.guess-row { display:grid; grid-template-columns:minmax(130px, 1.35fr) 3fr; gap:10px; min-height:58px; }
+.object-cell { display:flex; align-items:center; gap:10px; min-width:0; border:1px solid var(--line); border-radius:8px; background:rgba(16,24,39,.8); padding:0 12px; }
+.row-number { color:#64718a; font:10px "IBM Plex Mono",monospace; }
+.object-name { font-size:12px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tile-wrap { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
+.tile { display:flex; align-items:center; justify-content:center; min-width:0; border:1px solid var(--line); border-radius:8px; background:#111a2a; color:#f7f8fc; font:10px "IBM Plex Mono",monospace; text-align:center; padding:4px 2px; overflow-wrap:anywhere; transition:background .25s, transform .25s; }
+.tile.correct { background:var(--green); border-color:var(--green); }
+.tile.close { background:var(--yellow); border-color:var(--yellow); }
+.tile.wrong { background:var(--grey); border-color:var(--grey); color:#d6dce7; }
+.guess-form { margin-top:18px; }
+.input-wrap { display:flex; gap:8px; }
+input { flex:1; min-width:0; background:#111a2a; border:1px solid #33415a; border-radius:8px; padding:15px 16px; color:white; outline:none; font:13px "Inter",sans-serif; }
+input:focus { border-color:var(--accent); box-shadow:0 0 0 3px #a8f0d01a; }
+button { cursor:pointer; border:0; border-radius:8px; font:700 11px "IBM Plex Mono",monospace; letter-spacing:.08em; transition:transform .15s, opacity .15s; }
+button:hover { transform:translateY(-1px); }
+button:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+#guess-button { padding:0 20px; color:#08130f; background:var(--accent); }
+#guess-button span { font-size:15px; margin-left:7px; }
+.actions { display:flex; justify-content:space-between; align-items:center; margin-top:14px; }
+.text-button { background:transparent; color:#a9b4c8; padding:8px 0; font-size:9px; }
+.text-button:hover { color:var(--accent); }
+#hints-left { color:var(--accent); margin-left:6px; font-size:8px; }
+.message { min-height:20px; margin:10px 0 0; text-align:center; color:#8f9bb0; font-size:11px; }
+.result { text-align:center; border:1px solid #31435b; background:linear-gradient(135deg,#142438,#101827); border-radius:12px; padding:24px; margin-top:18px; }
+.result.hidden { display:none; }
+.result-kicker { color:var(--accent); font-size:9px; }
+.result h2 { margin:10px 0 5px; font-size:25px; }
+.result p { color:var(--muted); font-size:12px; }
+#again-button { margin-top:8px; background:var(--accent); color:#08130f; padding:13px 17px; }
+footer { margin:36px auto 24px; text-align:center; color:#68758c; font-size:9px; letter-spacing:.04em; }
+.legend { display:flex; justify-content:center; gap:18px; color:#a5afc1; letter-spacing:.08em; font-size:8px; }
+.legend span { display:flex; align-items:center; gap:6px; }
+.swatch { width:8px; height:8px; border-radius:2px; display:inline-block; }
+.swatch.correct { background:var(--green); } .swatch.close { background:var(--yellow); } .swatch.wrong { background:var(--grey); }
+footer p { margin-top:17px; }
+@media(max-width:520px) {
+  .top-note { font-size:7px; }
+  .intro { padding:42px 0 27px; }
+  .column-headings, .guess-row { grid-template-columns: minmax(105px,1.15fr) 3fr; gap:6px; }
+  .property-heads, .tile-wrap { gap:4px; }
+  .guess-row { min-height:54px; }
+  .object-cell { padding:0 7px; gap:6px; }
+  .object-name { font-size:10px; }
+  .tile { font-size:8px; border-radius:6px; }
+  .column-headings { font-size:7px; }
+  input { padding:13px 10px; font-size:11px; }
+  #guess-button { padding:0 12px; font-size:9px; }
+}
+
+
+/* Solar System Explorer — additive component; the existing game UI is unchanged. */
+.solar-explorer { width:min(100%, 650px); margin:26px auto 0; }
+.explorer-toggle {
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:13px 15px; text-align:left; color:var(--text); background:#101827;
+  border:1px solid #2b3a53; border-radius:9px;
+}
+.explorer-toggle-left { display:flex; align-items:center; gap:12px; min-width:0; }
+.explorer-icon { color:var(--accent); font-size:24px; line-height:1; }
+.explorer-toggle-left strong { display:block; font:500 10px "IBM Plex Mono",monospace; letter-spacing:.12em; }
+.explorer-toggle-left small { display:block; margin-top:4px; color:#8491a8; font:10px "Inter",sans-serif; letter-spacing:0; }
+.explorer-toggle-action { display:flex; align-items:center; gap:12px; color:var(--accent); white-space:nowrap; font:9px "IBM Plex Mono",monospace; letter-spacing:.1em; }
+#explorer-chevron { font:18px "Inter",sans-serif; transition:transform .2s; }
+.explorer-toggle[aria-expanded="true"] #explorer-chevron { transform:rotate(180deg); }
+.explorer-panel { margin-top:9px; overflow:hidden; border:1px solid #293750; border-radius:10px; background:#0d1523; box-shadow:0 14px 36px #0003; }
+.explorer-panel[hidden] { display:none; }
+.explorer-toolbar, .explorer-footer { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:11px 13px; color:#9eabc0; font:8px "IBM Plex Mono",monospace; letter-spacing:.1em; }
+.explorer-toolbar { border-bottom:1px solid #243149; }
+.explorer-live-dot { display:inline-block; width:6px; height:6px; margin-right:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 9px var(--accent); }
+.explorer-count { margin-left:8px; color:#66758e; }
+.explorer-hint { color:#66758e; text-align:right; }
+.explorer-content { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(190px,.8fr); min-height:300px; max-height:390px; }
+.explorer-map {
+  min-width:0; overflow:auto; overscroll-behavior:contain; padding:14px 13px 18px;
+  background:
+    radial-gradient(circle at 20% 20%, #1a2a40 0 1px, transparent 1.5px),
+    radial-gradient(circle at 80% 60%, #263953 0 1px, transparent 1.5px),
+    radial-gradient(circle at 45% 85%, #1a2a40 0 1px, transparent 1.5px),
+    #0b1320;
+  background-size:73px 67px, 91px 83px, 113px 97px, auto;
+  scrollbar-color:#34445e #0b1320; scrollbar-width:thin;
+}
+.map-sun-row { position:relative; padding:0 0 13px 4px; margin-bottom:5px; }
+.map-orbit-line { position:absolute; left:12px; top:15px; bottom:0; width:1px; background:linear-gradient(var(--accent),#31425b); opacity:.55; }
+.map-object {
+  position:relative; z-index:1; display:flex; align-items:center; gap:10px; width:100%;
+  padding:7px 9px; text-align:left; color:#dce5f2; background:transparent;
+  border:1px solid transparent; border-radius:7px; font:11px "Inter",sans-serif;
+  letter-spacing:0;
+}
+.map-object:hover, .map-object.selected { background:#1a2a3d; border-color:#3a5269; transform:none; }
+.map-object.selected { box-shadow:inset 2px 0 var(--accent); }
+.map-object .object-dot { flex:none; width:10px; height:10px; display:block; border-radius:50%; background:#9ca9bc; box-shadow:0 0 10px #9ca9bc55; }
+.sun-dot { width:14px !important; height:14px !important; background:#f5c66b !important; box-shadow:0 0 15px #f5c66b99 !important; }
+.map-object .map-name { font-weight:700; }
+.map-object .map-type { margin-left:auto; color:#71819a; font:8px "IBM Plex Mono",monospace; letter-spacing:.07em; }
+.map-group { position:relative; margin:0 0 7px 10px; padding:0 0 0 15px; border-left:1px solid #2b4058; }
+.map-group-title { display:flex; align-items:center; gap:7px; margin:0 0 3px; color:#7f90a9; font:8px "IBM Plex Mono",monospace; letter-spacing:.1em; }
+.map-group-title:before { content:""; width:5px; height:5px; margin-left:-18px; border-radius:50%; background:#6d829d; box-shadow:0 0 7px #6d829d66; }
+.map-children { margin-left:12px; padding-left:12px; border-left:1px dashed #2b4058; }
+.map-children .map-object { padding-top:6px; padding-bottom:6px; font-size:10px; }
+.map-children .object-dot { width:7px; height:7px; }
+.map-children .map-object .map-type { font-size:7px; }
+.explorer-details { min-width:0; padding:18px 15px; border-left:1px solid #243149; background:linear-gradient(160deg,#121e30,#0e1726); }
+.detail-placeholder { height:100%; min-height:250px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+.detail-orbit-icon { color:var(--accent); font-size:28px; margin-bottom:12px; }
+.detail-placeholder strong { font-size:14px; }
+.detail-placeholder p { max-width:190px; color:#8390a6; font-size:10px; line-height:1.7; }
+.detail-category { color:var(--accent); font:8px "IBM Plex Mono",monospace; letter-spacing:.13em; }
+.detail-title { margin:8px 0 9px; font-size:21px; letter-spacing:-.04em; }
+.detail-description { color:#a0acc0; font-size:10px; line-height:1.7; }
+.detail-facts { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:15px; }
+.detail-fact { min-width:0; padding:8px; border:1px solid #2a3a52; border-radius:6px; background:#101b2a; }
+.detail-fact span { display:block; color:#71819a; font:7px "IBM Plex Mono",monospace; letter-spacing:.09em; }
+.detail-fact strong { display:block; margin-top:5px; color:#e2e9f3; font-size:10px; overflow-wrap:anywhere; }
+.explorer-footer { border-top:1px solid #243149; color:#65748d; font-size:7px; }
+@media(max-width:560px) {
+  .explorer-content { grid-template-columns:1fr; max-height:none; }
+  .explorer-map { height:235px; }
+  .explorer-details { min-height:175px; border-left:0; border-top:1px solid #243149; padding:14px; }
+  .detail-placeholder { min-height:140px; }
+  .detail-placeholder p { max-width:260px; }
+  .explorer-toolbar { font-size:7px; }
+  .explorer-hint { max-width:105px; line-height:1.5; }
+  .explorer-footer { font-size:6px; }
+}
+@media(max-width:360px) {
+  .explorer-toggle { padding:11px; }
+  .explorer-toggle-left small { font-size:9px; }
+  .explorer-toggle-action { gap:6px; font-size:8px; }
+}
+
+
+/* Desktop workspace: original game stays intact on the left; map lives on the right. */
+.shell { width:min(1480px, calc(100% - 48px)); }
+.workspace { display:grid; grid-template-columns:minmax(500px, 650px) minmax(430px, 1fr); gap:clamp(26px,3.5vw,58px); align-items:start; }
+.game-column { min-width:0; }
+.game-column .intro { padding-top:54px; }
+.game-column .game { width:100%; }
+.solar-explorer { position:sticky; top:18px; width:100%; min-width:0; margin:30px 0 0; }
+.explorer-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:15px; margin-bottom:15px; }
+.explorer-kicker { color:var(--accent); font:9px "IBM Plex Mono",monospace; letter-spacing:.13em; }
+.explorer-kicker span { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:7px; background:var(--accent); box-shadow:0 0 10px var(--accent); }
+.explorer-heading h2 { margin:9px 0 5px; font-size:clamp(21px,2vw,29px); line-height:1.1; letter-spacing:-.05em; }
+.explorer-heading h2 em { color:var(--accent); font-style:normal; }
+.explorer-heading p { margin:0; color:#8794aa; font-size:10px; }
+.explorer-count { flex:none; color:var(--accent); font:20px "IBM Plex Mono",monospace; text-align:right; }
+.explorer-count small { display:block; color:#72819a; font-size:7px; letter-spacing:.12em; }
+.explorer-map-card { overflow:hidden; border:1px solid #2a3951; border-radius:11px; background:#0b1320; box-shadow:0 16px 40px #0003; }
+.map-toolbar { height:43px; display:flex; justify-content:space-between; align-items:center; padding:0 12px; border-bottom:1px solid #26344a; color:#a6b3c7; font:8px "IBM Plex Mono",monospace; letter-spacing:.1em; }
+.map-toolbar > span i { display:inline-block; width:6px; height:6px; margin-right:7px; border-radius:50%; background:#a8f0d0; box-shadow:0 0 8px #a8f0d0; }
+.map-controls { display:flex; gap:5px; }
+.map-controls button { width:25px; height:25px; padding:0; border:1px solid #35445c; border-radius:5px; background:#152236; color:#dce7f4; font:15px "Inter",sans-serif; letter-spacing:0; }
+.map-controls #map-motion { width:auto; padding:0 7px; font-size:11px; white-space:nowrap; }
+.map-controls button:hover { color:var(--accent); border-color:#7da995; transform:none; }
+.map-stage { position:relative; height:clamp(430px,54vh,610px); overflow:hidden; background:#0a1220; }
+#solar-map { display:block; touch-action:none; cursor:grab; }
+#solar-map.dragging { cursor:grabbing; }
+.map-instructions { position:absolute; top:12px; left:12px; display:flex; flex-wrap:wrap; gap:5px; pointer-events:none; }
+.map-instructions span { padding:5px 6px; border:1px solid #26364d; border-radius:4px; background:#0b1422c9; color:#7f91aa; font:7px "IBM Plex Mono",monospace; letter-spacing:.08em; }
+.map-legend { display:flex; flex-wrap:wrap; gap:16px; padding:10px 13px; border-top:1px solid #26344a; color:#8492a9; font:7px "IBM Plex Mono",monospace; letter-spacing:.09em; }
+.map-legend span { display:flex; align-items:center; gap:6px; }
+.map-legend i { width:7px; height:7px; border-radius:50%; display:inline-block; }
+.legend-planet { background:#8bb8d2; } .legend-moon { background:#d4c9b4; width:5px!important;height:5px!important; } .legend-small { background:#b7a18d; }
+.explorer-details { min-height:160px; margin-top:11px; padding:15px 16px; border:1px solid #293951; border-radius:9px; background:linear-gradient(145deg,#121f31,#0e1726); }
+.detail-placeholder { min-height:120px; display:flex; align-items:center; gap:14px; }
+.detail-placeholder .detail-orbit-icon { flex:none; margin:0; font-size:28px; }
+.detail-placeholder strong { font-size:12px; }
+.detail-placeholder p { margin:5px 0 0; color:#8593aa; font-size:10px; line-height:1.5; }
+.detail-topline { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.detail-category { color:var(--accent); font:8px "IBM Plex Mono",monospace; letter-spacing:.13em; }
+.detail-parent { color:#73839c; font:7px "IBM Plex Mono",monospace; letter-spacing:.08em; }
+.detail-title { margin:8px 0 5px; font-size:19px; letter-spacing:-.04em; }
+.detail-description { margin:0; color:#a0acc0; font-size:10px; line-height:1.6; }
+.detail-facts { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; margin-top:12px; }
+.detail-fact { min-width:0; padding:8px; border:1px solid #2a3a52; border-radius:6px; background:#101b2a; }
+.detail-fact span { display:block; color:#71819a; font:7px "IBM Plex Mono",monospace; letter-spacing:.08em; }
+.detail-fact strong { display:block; margin-top:5px; color:#e2e9f3; font-size:9px; overflow-wrap:anywhere; }
+.shell > footer { margin-top:28px; }
+@media(max-width:1080px) {
+  .shell { width:min(760px,calc(100% - 36px)); }
+  .workspace { grid-template-columns:1fr; gap:20px; }
+  .game-column { width:100%; }
+  .solar-explorer { position:static; margin:18px auto 0; max-width:650px; }
+  .map-stage { height:clamp(380px,65vw,540px); }
+  .game-column .intro { padding-top:42px; }
+}
+@media(max-width:560px) {
+  .shell { width:calc(100% - 28px); }
+  .explorer-heading h2 { font-size:22px; }
+  .map-stage { height:390px; }
+  .detail-facts { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .map-instructions span { font-size:6px; }
+}
+
+/* Polished clue tiles and reveal feedback */
+.clue-guide{color:#93a5be;font:10px "IBM Plex Mono",monospace;text-align:center;margin:15px 0 0;letter-spacing:.02em}
+.tile{flex-direction:column;gap:4px;padding:8px 3px;line-height:1.15;border-radius:9px;min-height:61px}
+.tile strong{font-size:clamp(9px,1vw,12px);font-weight:700;letter-spacing:-.025em}
+.tile small{font-size:9px;font-weight:700;letter-spacing:.01em;white-space:nowrap}
+.tile.correct{background:#186d57;border-color:#339d7b}
+.tile.close{background:#665020;border-color:#a48a49}
+.tile.wrong{background:#1e2a3d;border-color:#35435a}
+.object-cell{border-color:#27364a;background:#111c2c}
+.guess-row{min-height:64px}
+.map-stage canvas{cursor:grab;touch-action:none}
+.map-stage canvas.dragging{cursor:grabbing}
+@media(max-width:650px){.tile{min-height:56px;padding:5px 1px}.tile strong{font-size:9px}.tile small{font-size:8px}.clue-guide{font-size:9px}}
+
+/* Polished accessibility and game feedback */
+body {font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;}
+.top-note,.eyebrow,.column-headings,.text-button,.result-kicker,footer {font-family:Inter,system-ui,sans-serif;letter-spacing:.045em;}
+.detail-description,.detail-placeholder p {font-size:12px;line-height:1.7;}
+.detail-fact span {font-size:10px;font-family:Inter,system-ui,sans-serif;}
+.detail-fact strong {font-size:12px;}
+.detail-category,.detail-parent {font-size:10px;font-family:Inter,system-ui,sans-serif;}
+.result {transition:box-shadow .4s,transform .4s;animation:result-appear .5s ease-out;}
+.result.victory {border:1px solid #7ae6b4;background:linear-gradient(140deg,#173c36,#101d2b);box-shadow:0 0 60px #7ae6b42a;}
+.result.victory h2 {color:#c1ffe0;font-size:clamp(25px,3vw,38px);}
+.result.defeat {border-color:#b88b71;}
+@keyframes result-appear {from {opacity:0;transform:translateY(15px) scale(.97)}to {opacity:1;transform:none}}
+.confetti-layer {position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden;}
+.confetti-piece {position:absolute;top:-20px;width:7px;height:13px;border-radius:2px;animation:confetti-fall 3s linear forwards;}
+@keyframes confetti-fall {to {transform:translate(70px,110vh) rotate(800deg);opacity:0}}
+.moon-section {margin-top:18px;border-top:1px solid #33465b;padding-top:14px;}
+.moon-section h4 {font-size:13px;font-weight:700;margin:0 0 10px;color:#dceaf7;}
+.moon-list {display:flex;flex-wrap:wrap;gap:8px;}
+.moon-list button {background:#20334b;color:#d5eafa;border:1px solid #45647c;border-radius:20px;padding:8px 12px;cursor:pointer;font:600 12px Inter,sans-serif;transition:background .2s,transform .2s;}
+.moon-list button:hover,.moon-list button:focus-visible {background:#315476;transform:translateY(-2px);}
+.moon-list p {color:#9bacc0;font-size:12px;}
+button:focus-visible,input:focus-visible {outline:2px solid #a8f0d0;outline-offset:3px;}
+@media (prefers-reduced-motion:reduce){.confetti-layer{display:none}.result{animation:none}*{scroll-behavior:auto!important}}
+
+/* Space Apps-inspired mission control polish; no affiliation or official NASA branding. */
+:root {--bg:#060c19;--panel:#0e1b2d;--line:#28405b;--muted:#a0b2ca;--text:#f5f9ff;--accent:#5cdbf4;--green:#148d76;--yellow:#aa7928;--grey:#2a3d56}
+body {background:radial-gradient(ellipse at 55% -15%,#183d68 0%,transparent 52%),#060c19;font-family:Inter,system-ui,sans-serif}
+.brand {letter-spacing:.09em;font-size:16px}
+h1,h2,h3 {letter-spacing:-.035em}
+.topbar {border-bottom-color:#28405b}
+button {font-family:Inter,system-ui,sans-serif;letter-spacing:.02em}
+.top-note,.eyebrow,.column-headings,.result-kicker,.explorer-kicker {font-family:"IBM Plex Mono",monospace;letter-spacing:.055em}
+button:focus-visible,input:focus-visible {outline:2px solid #69dcf6;outline-offset:3px}
+.tile {font-family:Inter,system-ui,sans-serif;font-weight:650;font-size:11px}
+.object-name {font-size:13px}
+.explorer-map-card {box-shadow:0 12px 44px #0005}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Six-column comparison: diameter makes shared category combinations distinguishable. */
+.property-heads,.tile-wrap{grid-template-columns:repeat(6,minmax(0,1fr))}
+.tile{min-width:0;overflow-wrap:anywhere}
+@media(max-width:650px){.column-headings,.guess-row{grid-template-columns:minmax(90px,1fr) minmax(0,4fr)}.property-heads,.tile-wrap{gap:3px}.property-heads{font-size:8px}.tile{font-size:10px}}
+
+
+/* 2026 science and experience audit: compact left column, readable comparison, calm sky */
+.shell{width:min(1500px,calc(100% - 48px))}
+.workspace{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(430px,1fr);gap:clamp(24px,3.5vw,64px);align-items:start}
+.game-column .intro{padding-top:38px}
+.game-column .game{width:100%}
+.column-headings,.guess-row{grid-template-columns:minmax(104px,.95fr) minmax(0,5fr);gap:8px}
+.object-cell{padding:0 9px;border:1px solid #365878;border-left:3px solid #5cdbf4;background:#101e31;border-radius:8px}
+.object-name{font-size:12px;line-height:1.25;white-space:normal;overflow-wrap:anywhere}
+.row-number{font-size:10px}
+.property-heads{font-size:clamp(8px,.75vw,10px);gap:5px;letter-spacing:0}
+.tile-wrap{gap:5px}
+.tile{min-height:62px;border-radius:7px;padding:6px 2px;font-size:10px}
+.tile strong{font-size:clamp(9px,.88vw,11px)}
+.tile small{font-size:8px;white-space:normal;line-height:1.1}
+.clue-legend{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:8px 2px 13px;margin-top:-2px;color:#b8c9dc;font:11px Inter,system-ui,sans-serif}
+.clue-legend span{display:inline-flex;align-items:center;gap:7px}
+.clue-legend .swatch{width:10px;height:10px}
+.clue-direction{color:#7edcf2}
+.solar-explorer{position:sticky;top:16px;width:100%;margin:30px 0 0;min-width:0}
+.map-search-form{display:flex;gap:8px;padding:10px 12px 4px;background:#101c2e}
+.map-search-form input{padding:10px 12px;font-size:12px;min-width:0}
+.map-search-form button{background:#5cdbf4;color:#071928;padding:0 15px;font-size:11px}
+.map-search-status{margin:0;padding:5px 13px 9px;background:#101c2e;color:#91a9c3;font-size:11px}
+.map-stage{height:clamp(380px,45vw,580px)}
+body{background-color:#060c19;background-image:radial-gradient(ellipse at 55% -15%,#19395e 0%,transparent 53%),radial-gradient(1px 1px at 14% 23%,#9ab6d877 99%,transparent),radial-gradient(1px 1px at 73% 51%,#a8bbde55 99%,transparent),radial-gradient(1px 1px at 46% 81%,#acc7df66 99%,transparent)}
+.world-portrait{display:block;width:min(210px,68%);height:auto;aspect-ratio:1;margin:0 auto 4px;filter:drop-shadow(0 14px 20px #0007)}
+.visual-note{font-size:10px;color:#879eb9;border-top:1px solid #2a4057;padding-top:9px;line-height:1.5}
+.game-won{animation:missionPulse 1.3s ease-out 1}
+.game-won .guess-row.revealed:last-of-type{box-shadow:0 0 22px #68f6cf28}
+@keyframes missionPulse{0%{filter:drop-shadow(0 0 0 #65e8c700)}35%{filter:drop-shadow(0 0 22px #65e8c777)}100%{filter:drop-shadow(0 0 0 #65e8c700)}}
+@media(max-width:1050px){.workspace{grid-template-columns:1fr;gap:12px}.solar-explorer{position:static;max-width:850px;margin:18px auto 0}.game-column{max-width:850px;margin:auto;width:100%}.map-stage{height:460px}}
+@media(max-width:600px){.shell{width:calc(100% - 20px)}.column-headings,.guess-row{grid-template-columns:minmax(78px,.95fr) minmax(0,5fr);gap:4px}.tile-wrap,.property-heads{gap:2px}.object-cell{padding:0 4px}.object-name{font-size:10px}.tile{padding:3px 1px;min-height:58px}.tile strong{font-size:8px}.tile small{font-size:7px}.column-headings{font-size:7px}.clue-legend{font-size:9px;gap:6px 10px}.map-stage{height:390px}.map-search-form button{padding:0 10px}}
+@media(prefers-reduced-motion:reduce){.game-won{animation:none}}
+
+/* NASA archive: secondary to the animated atlas */
+.nasa-gallery{margin-top:20px;padding-top:18px;border-top:1px solid rgba(150,183,219,.22)}
+.nasa-gallery h4{font:600 12px/1.5 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#9cd5f5;margin:0 0 8px}
+.nasa-status{font-size:12px;color:#a9b9ce;margin:0 0 12px}
+.nasa-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.nasa-item{display:block;min-width:0;color:#dceafa;text-decoration:none;border:1px solid #29435c;border-radius:9px;overflow:hidden;background:#0a1728}
+.nasa-item:hover,.nasa-item:focus-visible{border-color:#80c9ee;outline-offset:2px}
+.nasa-item img{width:100%;height:95px;object-fit:cover;display:block;background:#09111e}
+.nasa-item span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:8px;font-size:11px;line-height:1.35}
+@media(max-width:540px){.nasa-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Target-world facts, shown after each accepted guess */
+.fact-panel{margin:16px 0;padding:16px 18px;border:1px solid #355d7a;border-left:3px solid #73c9e8;border-radius:12px;background:linear-gradient(115deg,#132b40,#101b2c);box-shadow:0 8px 28px #0002}
+.fact-panel.hidden{display:none}
+.fact-label{display:block;color:#9bdcf6;font:700 11px Inter,system-ui,sans-serif;letter-spacing:.13em}
+.fact-panel p{margin:9px 0 0;color:#e8f5ff;font:500 14px/1.65 Inter,system-ui,sans-serif}
+.fact-panel.fact-victory{border-color:#8be9b9;border-left-color:#8be9b9;background:linear-gradient(115deg,#163b36,#102539)}
+.fact-enter{animation:fact-pop .4s ease-out}
+@keyframes fact-pop{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.fact-enter{animation:none}}
+
+/* Reliable victory celebration: fixed overlay above all map and game panels. */
+.confetti-layer{position:fixed!important;inset:0!important;z-index:2147483647!important;pointer-events:none!important;overflow:hidden!important;display:block!important}
+.confetti-piece{position:absolute!important;top:-24px;width:9px;height:16px;opacity:1;will-change:transform;animation-name:planetdle-confetti!important;animation-timing-function:cubic-bezier(.22,.6,.35,1)!important;animation-fill-mode:forwards!important}
+@keyframes planetdle-confetti{0%{transform:translate3d(0,-20px,0) rotate(0);opacity:1}85%{opacity:1}100%{transform:translate3d(var(--drift,80px),110vh,0) rotate(var(--spin,900deg));opacity:0}}
+@media(prefers-reduced-motion:reduce){.confetti-layer{display:block!important}.confetti-piece{animation-duration:1.4s!important}}
+
+/* Educational edition: a large, legible explorer and full-width atlas. */
+.shell{width:min(1700px,calc(100% - 40px))}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:stretch}
+.game-column{width:min(100%,1000px);margin:auto}
+.game-column .intro{padding:32px 0 24px}
+.game-column .game{width:100%}
+.solar-explorer{position:static;width:100%;max-width:none;margin:12px 0 0}
+.explorer-map-card{width:100%}
+.map-stage{height:clamp(570px,75vh,950px);min-height:570px}
+.explorer-details{grid-column:1/-1;width:100%;max-width:none;min-height:250px;margin:0;padding:clamp(20px,3vw,40px);border-radius:16px}
+.explorer-heading h2{font-size:clamp(24px,3vw,38px)}
+.map-instructions{font-size:11px}
+.guess-form input{font-size:15px}
+.clue-legend{font-size:11px}
+/* Center the outcome above every panel, not inside the game column. */
+.result:not(.hidden){position:fixed!important;inset:50% auto auto 50%!important;transform:translate(-50%,-50%)!important;z-index:2147483646!important;width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;margin:0!important;padding:clamp(24px,4vw,48px)!important;border:1px solid #6cbfae;border-radius:22px;box-shadow:0 0 0 200vmax rgba(2,8,18,.80),0 25px 100px #000b;background:linear-gradient(155deg,#183a42,#0b1425 75%)}
+.result:not(.hidden) h2{font-size:clamp(28px,5vw,44px)}
+.result:not(.hidden) p{font-size:15px;line-height:1.6}
+.result-fact{padding:16px;border:1px solid #365a66;border-radius:12px;background:#112c36;color:#d9f4ef!important}
+.close-result{position:absolute;right:16px;top:12px;background:transparent;color:#d6e6e9;font:26px Inter,sans-serif;padding:4px 12px}
+.result:focus{outline:none}
+@media(max-width:800px){.shell{width:calc(100% - 20px)}.workspace{grid-template-columns:minmax(0,1fr)}.game-column{max-width:none}.solar-explorer{max-width:none}.map-stage{height:65vh;min-height:440px}.explorer-details{padding:18px}.top-note{display:none}}
+@media(max-width:520px){.map-stage{height:60vh;min-height:390px}.map-instructions{font-size:8px}.explorer-heading{gap:8px}.result:not(.hidden){padding:26px 20px!important}}
+
+/* Return map to the right, with a full-width educational atlas below both columns. */
+.workspace{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)!important;gap:24px!important;align-items:start!important}
+.game-column{grid-column:1;width:100%!important;max-width:none!important;margin:0!important;min-width:0}
+.solar-explorer{grid-column:2;grid-row:1;position:relative!important;width:100%!important;max-width:none!important;margin:12px 0 0!important;min-width:0}
+.explorer-details{grid-column:1/-1!important;grid-row:2;width:100%!important;max-width:none!important;margin:0!important;min-height:290px!important}
+.map-stage{height:clamp(460px,57vh,690px)!important;min-height:460px!important}
+.explore-guide{display:flex;align-items:center;gap:14px;width:100%;margin:0 0 13px;padding:14px 16px;border:1px solid #5da6c5;border-radius:12px;background:linear-gradient(110deg,#16344b,#12253b);color:#e5f6ff;text-align:left;cursor:pointer;box-shadow:0 0 25px #4ab9e315}
+.explore-guide:hover,.explore-guide:focus-visible{border-color:#9be5ff;background:#1b4059}
+.explore-guide strong{display:block;font:700 14px/1.35 Inter,system-ui,sans-serif}
+.explore-guide small{display:block;margin-top:4px;font:12px/1.5 Inter,system-ui,sans-serif;color:#bdd6e6}
+.explore-guide .guide-icon{font-size:29px;color:#81d6ff}
+.explore-guide>span:last-child{margin-left:auto;font-size:23px}
+.explore-guide.used{border-color:#355c75;background:#102337}
+.explorer-details.profile-open{border-color:#5b9fc4;box-shadow:0 0 0 1px #325e7a,0 18px 50px #0003}
+.nasa-item img{height:150px;object-fit:contain;background:#08101b}
+.nasa-item small{display:block;padding:0 8px 9px;color:#8eafc7;font-size:10px}
+@media(max-width:1050px){.workspace{grid-template-columns:1fr!important}.game-column{grid-column:1}.solar-explorer{grid-column:1;grid-row:2}.explorer-details{grid-column:1;grid-row:3}.map-stage{height:520px!important;min-height:420px!important}}
+@media(max-width:540px){.map-stage{height:390px!important;min-height:390px!important}.explore-guide strong{font-size:12px}.explore-guide small{font-size:11px}}
+/* Discovery Lab: accessible modal over existing game */
+.open-discovery{display:block;margin:14px 0;padding:13px 20px;border:1px solid #79d5f4;border-radius:10px;background:linear-gradient(115deg,#145276,#173149);color:#fff;font-weight:800;letter-spacing:.04em;cursor:pointer;box-shadow:0 0 24px #3c9ee12c}
+.open-discovery:hover,.open-discovery:focus-visible{background:#246a8b;outline:2px solid #8be3ff;outline-offset:2px}
+.discovery-open{overflow:hidden}.discovery-modal{display:none;position:fixed;inset:0;z-index:99999;background:#010711e9;align-items:center;justify-content:center;padding:22px}.discovery-modal.is-open{display:flex}.discovery-panel{width:min(1100px,98vw);max-height:94vh;overflow:auto;background:#0b1729;border:1px solid #37627d;border-radius:20px;box-shadow:0 35px 110px #000b;color:#e8f5ff}.discovery-header{display:flex;justify-content:space-between;align-items:center;padding:19px 25px;border-bottom:1px solid #29465b}.discovery-header h2{margin:3px 0;font-size:clamp(20px,3vw,32px)}.discovery-kicker{font-size:11px;letter-spacing:.15em;color:#8bd9f5}.discovery-header button{background:#203a52;color:#fff;border:1px solid #456e86;border-radius:10px;padding:10px 16px;cursor:pointer}.discovery-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(260px,.8fr);gap:0}.discovery-viewport{position:relative;min-height:440px;background:radial-gradient(circle,#182d4d,#030a14 75%);overflow:hidden}.discovery-viewport canvas{display:block;width:100%;height:500px;touch-action:none;cursor:grab}.discovery-viewport canvas:active{cursor:grabbing}.discovery-hotspots{position:absolute;inset:0;pointer-events:none}.discovery-marker{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;width:31px;height:31px;border:2px solid #fff;border-radius:50%;background:#1285a5d9;color:#fff;font-weight:bold;cursor:pointer;box-shadow:0 0 0 7px #24a9d42c,0 0 22px #31d2ff}.discovery-marker:hover,.discovery-marker:focus-visible{background:#edac48;color:#101522}.discovery-gesture{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.08em;color:#c6deef;pointer-events:none}.discovery-sidebar{padding:24px;background:#101e32}.discovery-sidebar h3{margin:0 0 12px}.discovery-sidebar p{line-height:1.65}.discovery-feature{margin:20px 0;padding:18px;background:#18344b;border:1px solid #4b8caa;border-radius:12px;min-height:100px}.discovery-feature strong{display:block;color:#a8ebff;font-size:18px}.discovery-disclaimer{font-size:12px;color:#9bb7c8}.discovery-sidebar button{padding:12px 18px;border:1px solid #68c6e7;border-radius:9px;background:#1d5571;color:white;cursor:pointer}@media(max-width:740px){.discovery-modal{padding:8px}.discovery-layout{grid-template-columns:1fr}.discovery-viewport{min-height:300px}.discovery-viewport canvas{height:340px}.discovery-sidebar{padding:17px}.discovery-header{padding:13px 16px}}
+
+/* Release polish: map remains on the right and the atlas spans the full row. */
+.map-stage{height:clamp(510px,60vh,720px)!important;min-height:510px!important}
+.map-search-status{font-size:13px!important;line-height:1.6!important}
+.explorer-details{scroll-margin-top:18px}
+.discovery-loading{position:absolute;z-index:2;left:50%;top:30px;transform:translateX(-50%);padding:10px 17px;background:#0c2338d9;border:1px solid #4d839a;border-radius:9px;color:#d1f5ff;font-size:12px;pointer-events:none}
+.discovery-loading.hidden{display:none}
+@media(max-width:1050px){.map-stage{height:480px!important;min-height:420px!important}}
+@media(max-width:540px){.map-stage{height:390px!important;min-height:390px!important}}
+
+/* Scientific 3D globes are rendered directly over the animated orbit map. */
+#atlas-globes{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+#solar-map{position:relative;z-index:0}
+.map-instructions{z-index:2;pointer-events:none}
+.atlas-inspector{max-width:880px;margin:20px auto;padding:12px;background:#091624;border:1px solid #355d7a;border-radius:13px;}
+#atlas-inspector-canvas{display:block;width:100%;height:clamp(250px,45vh,460px);touch-action:none;cursor:grab;border-radius:8px}
+.atlas-inspector-help,.atlas-inspector-source{font-size:12px;color:#b6c9d7;text-align:center;margin:8px 0}
+.atlas-inspector-discovery{display:block;margin:12px auto 0;padding:9px 14px;background:#18415d;color:white;border:1px solid #4e819a;border-radius:7px;cursor:pointer;font-weight:700}
+.webgl-unavailable #atlas-inspector-canvas,.webgl-unavailable .atlas-inspector-help{display:none}
+.guess-preview:not([hidden]){display:block;width:min(100%,360px);height:180px;margin:6px auto}
+.result .guess-preview:not([hidden]){height:155px}
+
+ .map-stage{height:clamp(590px,70vh,850px)!important;min-height:590px!important}
+@media(max-width:1050px){.map-stage{height:570px!important;min-height:490px!important}}
+@media(max-width:540px){.map-stage{height:510px!important;min-height:510px!important}}
+
+/* The selected world's model and facts share the profile below the map. */
+.explorer-details.profile-open{
+  padding:clamp(18px,3vw,42px);
+  background:radial-gradient(ellipse at 12% 0%,#1b324b 0%,#111e31 38%,#0c1524 80%);
+  border-color:#385671;
+}
+.profile-open .detail-topline{justify-content:flex-start;gap:14px}
+.profile-open .detail-category{
+  color:var(--world-accent,#a8d9ff);
+  background:#091421;border:1px solid #40546d;border-radius:20px;padding:6px 10px
+}
+.profile-open .detail-parent{color:#bacbdf}
+.profile-open .detail-title{font-size:clamp(30px,4vw,48px);line-height:1.1;margin:14px 0 20px}
+.world-profile{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:clamp(18px,3vw,40px);align-items:start}
+.world-profile .atlas-inspector{max-width:none;margin:0;padding:10px;border-color:#30485f;background:#0b1626}
+.world-profile #atlas-inspector-canvas{height:clamp(270px,40vh,400px)}
+.world-overview .detail-description{max-width:72ch;font-size:16px;line-height:1.65;color:#d1deee}
+.world-overview .detail-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.world-overview .detail-fact{padding:14px;border-radius:10px;border-color:#30465e}
+.world-overview .detail-fact span{color:#a9bcd4}
+.world-overview .detail-fact strong{font-size:15px}
+.atlas-field-notes{display:grid;gap:6px;margin-top:10px}
+.atlas-field-notes details{background:#101f32;border:1px solid #2c435b;border-radius:8px;padding:9px 12px}
+.atlas-field-notes summary{color:#c6dcf0;cursor:pointer;font-size:13px}
+.atlas-field-notes p{color:#aebfd4;font-size:13px;line-height:1.5;margin:8px 0 0}
+@media(max-width:760px){.world-profile{grid-template-columns:minmax(0,1fr)}}
+
+@media(min-width:1051px){
+  .map-stage{height:var(--board-height,490px)!important;min-height:0!important}
+}
+@media(max-width:1050px){
+  .map-stage{height:clamp(360px,53vh,490px)!important;min-height:0!important}
+}
+
+.flow :focus-visible, .workspace :focus-visible{outline:2px solid #86e7ff;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+  .workspace *, .workspace *::before,.workspace *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+.inspector-controls{display:flex;justify-content:center;gap:10px;margin:12px 0}.inspector-controls button{padding:9px 14px;background:#18344b;border:1px solid #4b8caa;border-radius:8px;color:#e8f5ff;cursor:pointer}.world-profile,.atlas-inspector{min-width:0}#atlas-inspector-canvas{max-width:100%;user-select:none;touch-action:none}
+
+
+/* Mission-control finishing pass: tidy rhythm and accessible custom world lists. */
+:root{--polish-line:#36526c;--polish-highlight:#8be8ff;--polish-soft:#aec3d7}
+.topbar{min-height:72px;height:auto;padding:14px 0;gap:20px}
+.intro{padding-bottom:26px!important}
+.subhead{max-width:55ch;margin:0 auto;color:#b5c6d9;font-size:clamp(13px,1vw,15px);line-height:1.7}
+.game{min-width:0}
+.guess-form{margin-top:24px}
+.input-wrap{align-items:stretch;gap:10px;position:relative;overflow:visible}
+.world-combo{flex:1;min-width:0;position:relative;isolation:isolate}
+.world-combo.is-open{z-index:45}
+.world-input-label{display:block;margin:0 0 7px;color:#b6cde2;font:700 10px 'IBM Plex Mono',monospace;letter-spacing:.085em}
+.world-input-shell{position:relative;display:flex;align-items:center;min-width:0;height:50px;background:#0c192b;border:1px solid #3d5a74;border-radius:11px;transition:border-color .18s,box-shadow .18s,background .18s}
+.world-input-shell:focus-within{border-color:#86e7ff;background:#10243b;box-shadow:0 0 0 3px #53cafa1d}
+.world-search-icon{flex:none;padding:0 0 0 14px;color:#9bdaf0;font:26px/1 Inter,sans-serif}
+.world-input-shell input,.map-search-form .world-input-shell input{flex:1;min-width:0;width:100%;height:100%;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0 7px 0 8px!important;color:#f4faff;font:500 14px/1.3 Inter,system-ui,sans-serif;outline:0!important;letter-spacing:0}
+.world-input-shell input::placeholder{color:#859bb5;opacity:1}
+.world-list-toggle{flex:none;align-self:stretch;min-width:44px;background:transparent;color:#a9d4ea;border:0;border-radius:0 10px 10px 0;padding:0 12px;font:22px Inter,sans-serif;transform:none!important;transition:color .18s,background .18s}
+.world-list-toggle:hover{background:#20405c;color:#fff}
+.world-combo.is-open .world-list-toggle{color:#8be8ff}
+.world-input-help{font-size:11px;line-height:1.5;color:#94aac0;margin:9px 0 0}
+#guess-button{align-self:flex-end;min-height:50px;padding:0 clamp(13px,1.6vw,24px);border-radius:10px;white-space:nowrap;box-shadow:0 6px 24px #59d4bb15;transition:transform .18s,filter .18s,box-shadow .18s}
+#guess-button:hover:not(:disabled){filter:brightness(1.09);box-shadow:0 8px 28px #59d4bb35}
+.world-option-panel{position:absolute;z-index:75;top:calc(100% + 8px);left:0;right:0;max-height:min(340px,48vh);overflow:auto;overscroll-behavior:contain;border:1px solid #537d98;border-radius:13px;background:#0d1d30;box-shadow:0 20px 60px #000b,0 0 0 1px #78caed10;padding:8px;scrollbar-width:thin;scrollbar-color:#4b728c #132236;animation:world-list-in .16s ease-out}
+.world-option-panel[hidden]{display:none!important}
+.world-option-meta{padding:9px 11px 12px;font:700 10px 'IBM Plex Mono',monospace;letter-spacing:.055em;color:#94b1cb;border-bottom:1px solid #274057}
+.world-option-group{padding:13px 11px 7px;color:#84d3f5;font:700 10px 'IBM Plex Mono',monospace;letter-spacing:.085em}
+.world-option{display:flex;align-items:center;gap:12px;min-height:43px;padding:8px 12px;border:1px solid transparent;border-radius:8px;cursor:pointer;transition:background .15s,border-color .15s}
+.world-option:hover,.world-option.is-active{background:#1c3d57;border-color:#497b97}
+.world-option-dot{flex:none;width:10px;height:10px;border-radius:50%;background:#78c5ee;box-shadow:0 0 0 3px #78c5ee17}
+.world-option-dot[data-group="MOONS"]{background:#c9d8e4;box-shadow:0 0 0 3px #c9d8e417}
+.world-option-dot[data-group="DWARF PLANETS & SMALL BODIES"]{background:#d9bc90;box-shadow:0 0 0 3px #d9bc9017}
+.world-option-title{min-width:0;color:#f0f7fd;font:600 13px Inter,system-ui,sans-serif}
+.world-option-title mark{background:#8feaff26;color:#c1f6ff;border-radius:3px;padding:1px 0}
+.world-option-kind{margin-left:auto;color:#a0b5c7;font:11px Inter,system-ui,sans-serif;white-space:nowrap}
+.world-option-empty{padding:20px 12px;color:#b0c2d5;font-size:12px;line-height:1.5}
+.map-search-form{align-items:stretch;padding:12px 13px 10px;gap:9px;overflow:visible}
+.map-search-form .world-input-shell{height:43px;background:#0b1c2d}
+.map-search-form .world-option-panel{z-index:85}
+.map-search-form button[type="submit"]{min-height:43px;border-radius:9px;padding:0 17px;font-weight:800;transition:background .18s,transform .18s}
+.map-search-form button[type="submit"]:hover{background:#8cedff}
+.message{font-size:12px;line-height:1.6;margin-top:14px;min-height:22px}
+.actions{margin-top:13px}
+.explorer-heading p,.detail-description{line-height:1.65}
+.explore-guide{transition:background .2s,border-color .2s,box-shadow .2s,transform .2s}
+.explore-guide:hover{box-shadow:0 8px 30px #54d5ff1c}
+.tile{transition:background-color .28s,border-color .28s,box-shadow .28s}
+.guess-row.revealed .object-cell{border-color:#466c89}
+@keyframes world-list-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.world-input-shell{height:48px}.world-input-shell input{font-size:13px!important}.world-input-help{font-size:10px}#guess-button{min-height:48px;padding:0 13px}.world-option-panel{max-height:42vh}.world-option-kind{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.world-option-panel{animation:none}.world-option,.world-input-shell{transition:none}}
+
+/* Wordle-like score reveal: colored state is concealed until each individual
+   tile reaches the edge-on position. No layout shift or premature color flash. */
+.tile.tile-awaiting-reveal,
+.tile.tile-awaiting-reveal.correct,
+.tile.tile-awaiting-reveal.close,
+.tile.tile-awaiting-reveal.wrong {
+  background:#111a2a !important;
+  border-color:#32445b !important;
+  box-shadow:none !important;
+}
+.tile.tile-awaiting-reveal > * { visibility:hidden; }
+.tile { transform-style:preserve-3d; backface-visibility:hidden; will-change:transform; }
+.tile.correct:not(.tile-awaiting-reveal) {box-shadow:inset 0 0 0 1px #a2ffe229;}
+.tile.close:not(.tile-awaiting-reveal) {box-shadow:inset 0 0 0 1px #ffe9a029;}
+@keyframes planetdle-confetti {0%{transform:translate3d(0,-25px,0) rotate(0);opacity:1}78%{opacity:1}100%{transform:translate3d(var(--drift,80px),var(--fall,115vh),0) rotate(var(--spin,900deg));opacity:0}}
+@media (prefers-reduced-motion:reduce){.tile{will-change:auto}}
+
+/* Sequential reveal: no hidden scored value, background, or letter is painted
+   before this parameter turns over. Disable the generic transform transition
+   only during the controlled Wordle-style flip. */
+.tile.tile-pending {background:#101b2c!important;border-color:#31435b!important;box-shadow:none!important;}
+.tile.tile-flipping {transition:none!important;transform-origin:center center;backface-visibility:visible;}
+.tile.tile-pending > * {display:none!important;}
+.result-model-label {color:#a8f0d0!important;font:600 11px "IBM Plex Mono",monospace!important;letter-spacing:.08em;text-transform:uppercase;margin:16px 0 4px!important;}
+
+/* Clearly identify the correct discovered object when WebGL is unavailable. */
+.model-fallback:not([hidden]){display:block;max-width:360px;margin:12px auto;padding:18px;border:1px dashed #477b86;border-radius:12px;background:#102635;color:#d4edf4;font-size:13px;line-height:1.5;text-align:center;}
+
+/* One authoritative tile animation pathway: JS Element.animate.
+   Do not add CSS animations here: global accessibility overrides made the
+   older CSS-only flip invisible while keeping its staggered JS delays. */
+#grid .tile { transform-origin:center center; backface-visibility:visible; }
+#grid .tile-wrap { perspective:850px; }
+#grid .tile.tile-turning { will-change:transform, opacity; transform-style:preserve-3d; }
+#grid .tile.tile-reveal-settled { box-shadow:inset 0 0 0 1px #ffffff20; }

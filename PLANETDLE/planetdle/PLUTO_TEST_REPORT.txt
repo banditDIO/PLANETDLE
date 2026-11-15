@@ -1,0 +1,2 @@
+PASS Pluto composite loaded and southern reconstruction labeled
+PASS No uncaught Chrome errors

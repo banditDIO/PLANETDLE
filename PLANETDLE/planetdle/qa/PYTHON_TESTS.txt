@@ -1,0 +1,23 @@
+test_all_targets_and_guesses (test_game.GameTests.test_all_targets_and_guesses) ... ok
+test_hint_limit (test_game.GameTests.test_hint_limit) ... ok
+test_invalid_and_duplicate (test_game.GameTests.test_invalid_and_duplicate) ... ok
+test_six_guesses (test_game.GameTests.test_six_guesses) ... ok
+test_target_facts_on_every_accepted_guess (test_game.GameTests.test_target_facts_on_every_accepted_guess) ... ok
+test_gallery_excludes_events_and_partial_name_matches (test_release.ReleaseChecks.test_gallery_excludes_events_and_partial_name_matches) ... ok
+test_malformed (test_release.ReleaseChecks.test_malformed) ... ok
+test_notes_and_hint_route (test_release.ReleaseChecks.test_notes_and_hint_route) ... ok
+test_once_on_parallel_submissions (test_release.ReleaseChecks.test_once_on_parallel_submissions) ... ok
+test_refresh_and_cross_tab (test_release.ReleaseChecks.test_refresh_and_cross_tab) ... ok
+test_texture_and_mesh_routes (test_release.ReleaseChecks.test_texture_and_mesh_routes) ... ok
+test_two_sessions (test_release.ReleaseChecks.test_two_sessions) ... ok
+test_first_guess_and_duplicate (test_routes.RouteTests.test_first_guess_and_duplicate) ... ok
+test_instant_win (test_routes.RouteTests.test_instant_win) ... ok
+test_invalid_then_practice_reset (test_routes.RouteTests.test_invalid_then_practice_reset) ... ok
+test_loss_and_no_extra_guesses (test_routes.RouteTests.test_loss_and_no_extra_guesses) ... ok
+test_session_contains_no_secret_answer (test_routes.RouteTests.test_session_contains_no_secret_answer) ... ok
+test_texture_missing_is_404 (test_routes.RouteTests.test_texture_missing_is_404) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 1.486s
+
+OK

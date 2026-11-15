@@ -1,0 +1,1 @@
+Incorrect guesses display shuffled, non-repeating general astronomy learning notes. The Hint button teaches a concept rather than revealing an answer field. After winning, the object-specific fact appears. Each practice round reshuffles the notes.

@@ -1,0 +1,11 @@
+PASS Bennu draws imported mesh in map and profile
+PASS Vesta draws imported mesh in map and profile
+PASS Ceres draws imported mesh in map and profile
+PASS Phobos draws imported mesh in map and profile
+PASS Halley's Comet draws imported mesh in map and profile
+PASS Halley scene changes over time
+PASS Pluto draws imported mesh in map and profile
+PASS Bennu uses imported mesh after a guess
+PASS No uncaught Chrome errors []
+PASS Vesta model texture ready
+PASS No uncaught Chrome errors after sampler fix []

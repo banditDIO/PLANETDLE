@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PLANETDLE — Solar System Guessing Game</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='planetdle-icon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='waapi-visible-flips-2026-11-15-v2') }}">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">✦</span> PLANETDLE</div>
+      <div class="top-note">SPACE EXPLORATION · INSPIRED BY NASA SPACE APPS</div>
+    </header>
+
+    <div class="workspace">
+      <div class="game-column">
+    <section class="intro">
+      <div class="eyebrow"><span></span> MISSION CONTROL / DAILY CHALLENGE</div>
+      <h1>Can you find<br><em>the hidden world?</em></h1>
+      <p class="subhead">Guess a world from the list. Each guess compares six traits with the mystery world. You have six tries.</p>
+    </section>
+
+    <section class="game" aria-label="Planetdle game">
+      <div class="column-headings">
+        <span class="object-heading">YOUR GUESS</span>
+        <div class="property-heads">
+          <span>TYPE</span><span>ORBITS</span><span>SIZE</span><span>AIR</span><span>TEMP</span><span>DIAMETER</span>
+        </div>
+      </div>
+      <div class="clue-legend" aria-label="Clue colors">
+        <span><i class="swatch correct"></i> Exact match</span><span><i class="swatch close"></i> Near match</span><span><i class="swatch wrong"></i> Different</span><span class="clue-direction">↑ / ↓ = direction toward answer</span>
+      </div>
+      <div id="grid" class="grid" aria-live="polite">
+        {% for i in range(6) %}
+        <div class="guess-row" data-row="{{ i }}">
+          <div class="object-cell"><span class="row-number">{{ i + 1 }}</span><span class="object-name"></span></div>
+          <div class="tile-wrap">
+            {% for j in range(6) %}<div class="tile"></div>{% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <form id="guess-form" class="guess-form" autocomplete="off">
+        <div class="input-wrap">
+          <div class="world-combo" data-world-combo>
+            <label class="world-input-label" for="guess-input">CHOOSE A CELESTIAL OBJECT</label>
+            <div class="world-input-shell">
+              <span class="world-search-icon" aria-hidden="true">⌕</span>
+              <input id="guess-input" class="world-combo-input" placeholder="Search 21 worlds…" aria-label="Choose a planet, moon, or space object" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="guess-world-options" aria-expanded="false" autocomplete="off" spellcheck="false">
+              <button class="world-list-toggle" type="button" aria-label="Show or hide world list" tabindex="-1">⌄</button>
+            </div>
+            <div id="guess-world-options" class="world-option-panel" role="listbox" aria-label="Choose a world" hidden></div>
+          </div>
+          <button type="submit" id="guess-button">GUESS <span>↗</span></button>
+        </div>
+        <p class="world-input-help">Start typing or open the list · ↑ ↓ to navigate · Enter to select</p>
+      </form>
+
+      <div class="actions">
+        
+        <button id="practice-button" class="text-button">NEW PRACTICE ROUND ↻</button>
+      </div>
+      <p id="message" class="message" role="status">Start by typing any planet, moon, or space object above. Use the colors to narrow it down.</p>
+
+      <section id="fact-panel" class="fact-panel hidden" aria-live="polite" aria-label="Astronomy learning note">
+        <span class="fact-label">✦ SPACE SCIENCE NOTE</span>
+        <canvas id="guess-preview" class="guess-preview"></canvas>
+        <p id="fact-text"></p>
+      </section>
+      <div id="result" class="result hidden" role="dialog" aria-modal="true" aria-labelledby="result-title" tabindex="-1">
+        <button id="close-result" type="button" class="close-result" aria-label="Close result">×</button>
+        <div class="result-kicker">MISSION COMPLETE</div>
+        <h2 id="result-title"></h2>
+        <p id="result-copy"></p>
+        <p id="result-model-label" class="result-model-label" aria-live="polite"></p>
+        <canvas id="result-preview" class="guess-preview"></canvas>
+        <p id="result-fact" class="result-fact"></p>
+        <button id="again-button">EXPLORE ANOTHER WORLD ↗</button>
+      </div>
+    </section>
+
+
+
+      </div>
+      <aside class="solar-explorer" aria-label="Interactive Solar System map">
+        <div class="explorer-heading">
+          <div>
+            <div class="explorer-kicker"><span></span> SOLAR SYSTEM ATLAS</div>
+            <h2>Explore the <em>Solar System</em></h2>
+            <p>Click any world to open its science profile below the map.</p>
+          </div>
+          <div class="explorer-count">21 <small>WORLDS</small></div>
+        </div>
+        <button type="button" id="explore-guide" class="explore-guide"><span class="guide-icon">ⓘ</span><span><strong>Explore planet & moon information</strong><small>Click a world or search by name to see science facts, moons and NASA photographs ↓</small></span><span aria-hidden="true">↘</span></button>
+        <div class="explorer-map-card">
+          <div class="map-toolbar">
+            <span><i></i> LIVE ORBITAL VIEW</span>
+            <div class="map-controls">
+              <button type="button" id="map-motion">Pause motion</button>
+              <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+              <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+              <button type="button" id="map-reset" aria-label="Reset map view">⌖</button>
+            </div>
+          </div>
+          <form id="map-search-form" class="map-search-form" role="search">
+            <div class="world-combo map-world-combo" data-world-combo>
+              <div class="world-input-shell">
+                <span class="world-search-icon" aria-hidden="true">⌕</span>
+                <input id="map-search" class="world-combo-input" placeholder="Find a planet or moon…" aria-label="Search Solar System objects" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="map-world-options" aria-expanded="false" autocomplete="off" spellcheck="false" />
+                <button class="world-list-toggle" type="button" aria-label="Show or hide world list" tabindex="-1">⌄</button>
+              </div>
+              <div id="map-world-options" class="world-option-panel" role="listbox" aria-label="Find a world" hidden></div>
+            </div>
+            <button type="submit">LOCATE</button>
+          </form>
+          <p id="map-search-status" class="map-search-status" role="status">Scroll to zoom or drag to pan. Select a world to center it.</p>
+          <div class="map-stage" id="map-stage">
+            <canvas id="solar-map" aria-label="Interactive map of the Solar System. Drag to pan, use the mouse wheel to zoom, and click objects for information."></canvas>
+            <div class="map-instructions"><span>① DRAG TO MOVE</span><span>② SCROLL TO ZOOM</span><span>③ CLICK FOR FACTS</span></div>
+          </div>
+          <div class="map-legend">
+            <span><i class="legend-planet"></i> PLANETS</span>
+            <span><i class="legend-moon"></i> MOONS</span>
+            <span><i class="legend-small"></i> SMALL BODIES</span>
+          </div>
+        </div>
+        </aside>
+      <section class="explorer-details" id="explorer-details" aria-live="polite" tabindex="-1">
+          <div class="detail-placeholder">
+            <span class="detail-orbit-icon">✧</span>
+            <div><strong>Planet & Moon Information</strong><p>Click any object on the map or search above. Its scientific profile and NASA photos appear here.</p></div>
+          </div>
+        </section>
+      </div>
+
+
+    <footer>
+      <div class="legend">
+        <span><i class="swatch correct"></i> MATCH</span>
+        <span><i class="swatch close"></i> NEAR MATCH</span>
+        <span><i class="swatch wrong"></i> DIFFERENT</span>
+      </div>
+      <p>Independent educational game · not an official NASA product · orbit positions and illustrations are schematic</p>
+    </footer>
+  </main>
+<div id="discovery-modal" class="discovery-modal" role="dialog" aria-modal="true" aria-labelledby="discovery-title" aria-hidden="true"><div class="discovery-panel"><header class="discovery-header"><div><span class="discovery-kicker">PLANETDLE · DISCOVERY LAB</span><h2 id="discovery-title">Explore in 3D</h2></div><button id="discovery-close" type="button" aria-label="Close 3D explorer">✕</button></header><div class="discovery-layout"><div class="discovery-viewport"><canvas id="discovery-canvas" aria-label="Interactive rotating 3D globe"></canvas><div id="discovery-hotspots" class="discovery-hotspots"></div><div class="discovery-loading" id="discovery-loading" role="status">Preparing 3D world…</div><div class="discovery-gesture">DRAG TO ROTATE · SCROLL TO ZOOM · CLICK A MARKER</div></div><aside class="discovery-sidebar"><h3>Scientific field notes</h3><p id="discovery-intro"></p><div id="discovery-feature" class="discovery-feature" aria-live="polite">Select a glowing marker to learn about a feature.</div><p id="discovery-texture-source" class="discovery-disclaimer">Loading scientific surface map…</p><p class="discovery-disclaimer">Surface maps are scientific visualizations, not exact-scale models. Hotspot positions are approximate.</p><button id="discovery-spin" type="button">Pause rotation</button></aside></div></div></div>
+  <script id="world-options-data" type="application/json">{{ object_names|tojson }}</script>
+  <script src="{{ url_for('static', filename='world-select.js', v='polish-1') }}"></script>
+  <script src="{{ url_for('static', filename='discovery.js') }}"></script>
+  <script src="{{ url_for('static', filename='atlas3d.js', v='waapi-visible-flips-2026-11-15-v2') }}"></script>
+  <script id="round-history" type="application/json">{{ round_view|tojson }}</script>
+  <script src="{{ url_for('static', filename='game.js', v='victory-canvas-confetti-2026-11-15') }}"></script>
+</body>
+</html>
