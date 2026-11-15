@@ -1,2 +1,0 @@
-# PLANETDLE
-**PLANETDLE** is an interactive, Wordle-inspired astronomy game where players guess celestial objects using scientific clues. Featuring an animated 3D solar system, realistic planetary models, and educational facts, it makes learning about space fun and engaging.
